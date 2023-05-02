@@ -7,10 +7,15 @@ from typing import Optional, List
 from starlette.requests import Request
 from jwt_manager import create_token, validate_token
 from fastapi.security import HTTPBearer
+from config.database import Session, engine, Base
+from models.movie import Movie
 
 app = FastAPI()
 app.title = "Mi aplicación con FastApi"
 app.version = "0.0.1"
+
+#referencing database engine
+Base.metadata.create_all(bind=engine)
 
 class JWTBearer(HTTPBearer):
     async def __call__(self, request: Request):
